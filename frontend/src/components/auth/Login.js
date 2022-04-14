@@ -1,26 +1,19 @@
-import React, { useState } from 'react';
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputRightElement,
-  VStack,
-  Button,
-  useToast,
-} from '@chakra-ui/react';
-
+import { Button } from '@chakra-ui/button';
+import { FormControl, FormLabel } from '@chakra-ui/form-control';
+import { Input, InputGroup, InputRightElement } from '@chakra-ui/input';
+import { VStack } from '@chakra-ui/layout';
+import { useState } from 'react';
 import axios from 'axios';
+import { useToast } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 
 const Login = () => {
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
+  const toast = useToast();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
-  const toast = useToast();
-
-  const handleClick = () => setShow(!show);
 
   const history = useHistory();
 
@@ -77,30 +70,25 @@ const Login = () => {
   };
 
   return (
-    <VStack spacing='5px' color='black'>
+    <VStack spacing='10px'>
       <FormControl id='email' isRequired>
-        <FormLabel>Email</FormLabel>
+        <FormLabel>Email Address</FormLabel>
         <Input
-          placeholder='Enter Your email'
           value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
+          type='email'
+          placeholder='Enter Your Email Address'
+          onChange={(e) => setEmail(e.target.value)}
         />
       </FormControl>
-
       <FormControl id='password' isRequired>
         <FormLabel>Password</FormLabel>
-        <InputGroup>
+        <InputGroup size='md'>
           <Input
-            type={show ? 'text' : 'password'}
-            placeholder='Enter Your Password'
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
+            onChange={(e) => setPassword(e.target.value)}
+            type={show ? 'text' : 'password'}
+            placeholder='Enter password'
           />
-
           <InputRightElement width='4.5rem'>
             <Button h='1.75rem' size='sm' onClick={handleClick}>
               {show ? 'Hide' : 'Show'}
@@ -108,7 +96,6 @@ const Login = () => {
           </InputRightElement>
         </InputGroup>
       </FormControl>
-
       <Button
         colorScheme='blue'
         width='100%'
@@ -127,7 +114,7 @@ const Login = () => {
           setPassword('123456');
         }}
       >
-        Get Guest user Credentials
+        Get Guest User Credentials
       </Button>
     </VStack>
   );
