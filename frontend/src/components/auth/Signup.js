@@ -20,7 +20,7 @@ const Signup = () => {
   const [pic, setPic] = useState();
   const [picLoading, setPicLoading] = useState(false);
 
-  const submitHandler = async () => {
+  const submitHandler = () => {
     setPicLoading(true);
     if (!name || !email || !password || !confirmpassword) {
       toast({
@@ -50,27 +50,33 @@ const Signup = () => {
           'Content-type': 'application/json',
         },
       };
-      const { data } = await axios.post(
-        '/api/user',
-        {
-          name,
-          email,
-          password,
-          pic,
-        },
-        config
-      );
-      console.log(data);
-      toast({
-        title: 'Registration Successful',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-        position: 'bottom',
-      });
-      localStorage.setItem('userInfo', JSON.stringify(data));
-      setPicLoading(false);
-      history.push('/chats');
+      const { data } = axios
+        .post(
+          '/api/user',
+          {
+            name,
+            email,
+            password,
+            pic,
+          },
+          config
+        )
+        .then(() => {
+          toast({
+            title: 'Registration Successful',
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+            position: 'bottom',
+          });
+        })
+        .then(() => {
+          setPicLoading(false);
+          localStorage.setItem('userInfo', JSON.stringify(data));
+        })
+        .then(() => {
+          history.push('/chats');
+        });
     } catch (error) {
       toast({
         title: 'Error Occured!',
