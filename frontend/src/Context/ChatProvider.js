@@ -9,6 +9,7 @@ const ChatProvider = ({ children }) => {
   const [notification, setNotification] = useState([]);
   const [chats, setChats] = useState([]);
 
+
   const history = useHistory();
 
   useEffect(() => {
